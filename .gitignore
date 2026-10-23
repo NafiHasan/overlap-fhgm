@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Raw DHG-Bench downloads (converted inputs live in data/)
+dhgbench_data/
+dhg_data/
+
+# Pipeline outputs: mining caches, run records and reports
+results/
+
+# Execution logs
+logs/

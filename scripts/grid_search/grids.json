@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "grids": {
+    "GRID": {
+      "description": "Configuration search over occurrence-count encodings of the mined patterns, with log2-binned degree and cardinality labels and every pattern of at most two incidences found in two or more training graphs. Mining: overlap labels {none, log2} x {maximum pattern size 2; size 3 at support 0.2 or 0.1}; classification: count encoding {relative frequency per skeleton, log(1 + count)} x regularisation {S1E, S1T}; 24 configurations. Every mined pattern present in at least two training graphs enters the encoder with training max-abs scaling; no label-based selection. All other settings come from the base run. One shared configuration is selected on mean validation Macro-F1 (then validation accuracy); test scores are not used. Fully inductive, DHG-Bench repeats 0-4.",
+      "base_run": "MAIN",
+      "datasets": [
+        "imdb_dir_form",
+        "imdb_dir_genre",
+        "steam_player",
+        "twitter_friend",
+        "rhg_10",
+        "rhg_3"
+      ],
+      "repeats": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "fixed": {
+        "supervised_input_scaling": "train_maxabs",
+        "supervised_count_feature": "nonzero"
+      },
+      "mining": [
+        {
+          "tag": "N_D2",
+          "overrides": {
+            "label_binning": "log2",
+            "overlap_labels": "none",
+            "max_depth": 2,
+            "base_sup": 0.2,
+            "exhaustive_depth": 2,
+            "exhaustive_min_graphs": 2
+          }
+        },
+        {
+          "tag": "N_D3S20",
+          "overrides": {
+            "label_binning": "log2",
+            "overlap_labels": "none",
+            "max_depth": 3,
+            "base_sup": 0.2,
+            "exhaustive_depth": 2,
+            "exhaustive_min_graphs": 2
+          }
+        },
+        {
+          "tag": "N_D3S10",
+          "overrides": {
+            "label_binning": "log2",
+            "overlap_labels": "none",
+            "max_depth": 3,
+            "base_sup": 0.1,
+            "exhaustive_depth": 2,
+            "exhaustive_min_graphs": 2
+          }
+        },
+        {
+          "tag": "O_D2",
+          "overrides": {
+            "label_binning": "log2",
+            "overlap_labels": "log2",
+            "max_depth": 2,
+            "base_sup": 0.2,
+            "exhaustive_depth": 2,
+            "exhaustive_min_graphs": 2
+          }
+        },
+        {
+          "tag": "O_D3S20",
+          "overrides": {
+            "label_binning": "log2",
+            "overlap_labels": "log2",
+            "max_depth": 3,
+            "base_sup": 0.2,
+            "exhaustive_depth": 2,
+            "exhaustive_min_graphs": 2
+          }
+        },
+        {
+          "tag": "O_D3S10",
+          "overrides": {
+            "label_binning": "log2",
+            "overlap_labels": "log2",
+            "max_depth": 3,
+            "base_sup": 0.1,
+            "exhaustive_depth": 2,
+            "exhaustive_min_graphs": 2
+          }
+        }
+      ],
+      "axes": [
+        {
+          "name": "encoding",
+          "options": [
+            {
+              "tag": "REL",
+              "overrides": {
+                "mined_count_encoding": "relative"
+              }
+            },
+            {
+              "tag": "LOG",
+              "overrides": {
+                "mined_count_encoding": "log"
+              }
+            }
+          ]
+        },
+        {
+          "name": "settings",
+          "options": [
+            {
+              "tag": "S1E",
+              "overrides": {
+                "supervised_pattern_dropout": 0.3,
+                "supervised_encoder_l2": 0.05,
+                "nn_l2_regs": [
+                  0.05,
+                  0.03
+                ]
+              }
+            },
+            {
+              "tag": "S1T",
+              "overrides": {
+                "supervised_pattern_dropout": 0.0,
+                "supervised_encoder_l2": 0.01,
+                "nn_l2_regs": [
+                  0.01,
+                  0.005
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

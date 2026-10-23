@@ -1,0 +1,18 @@
+{
+  "converter_sha256": "7d53dc00fc050308e3b6fd20cd035253aa4efab25c5c977f5197a5aaacf9e132",
+  "edge_composite_dims": 1,
+  "graph_order": "preserved from source",
+  "graphs": 1310,
+  "hypergraph_sha256": "3c321e21f91b246c0dc32e411c96d8fe5545c13f4342d4535c001d0331a9721d",
+  "isolate_policy": "preserve converted-input vertices",
+  "label_mode": "composite",
+  "labels_sha256": null,
+  "rounding": "Python round, ties to even",
+  "schema_version": 1,
+  "source": {
+    "kind": "pipeline_relabel",
+    "path": "data/twitter_friend/composite/twitter_friend.txt",
+    "sha256": "aaf879d0821104ccb0449be06666c2e7d6c8db309ae65d36aafbc7dd549cd6ea"
+  },
+  "vertex_composite_dims": 1
+}

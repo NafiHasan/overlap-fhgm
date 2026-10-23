@@ -1,0 +1,11 @@
+[project]
+name = "dhgbench-split-generator"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy==1.26.4",
+    "torch==2.2.2",
+]
+
+[tool.uv]
+managed = true

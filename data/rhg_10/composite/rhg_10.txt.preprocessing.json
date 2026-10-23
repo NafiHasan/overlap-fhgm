@@ -1,0 +1,18 @@
+{
+  "converter_sha256": "7d53dc00fc050308e3b6fd20cd035253aa4efab25c5c977f5197a5aaacf9e132",
+  "edge_composite_dims": 1,
+  "graph_order": "preserved from source",
+  "graphs": 2000,
+  "hypergraph_sha256": "ede09fca1f4c50d3a4db5bec3de4e09af33c17a94f7d2d81a4e082b0a05d9912",
+  "isolate_policy": "preserve converted-input vertices",
+  "label_mode": "composite",
+  "labels_sha256": null,
+  "rounding": "Python round, ties to even",
+  "schema_version": 1,
+  "source": {
+    "kind": "pipeline_relabel",
+    "path": "data/rhg_10/composite/rhg_10.txt",
+    "sha256": "ede09fca1f4c50d3a4db5bec3de4e09af33c17a94f7d2d81a4e082b0a05d9912"
+  },
+  "vertex_composite_dims": 1
+}

@@ -1,0 +1,18 @@
+{
+  "converter_sha256": "7d53dc00fc050308e3b6fd20cd035253aa4efab25c5c977f5197a5aaacf9e132",
+  "edge_composite_dims": 1,
+  "graph_order": "preserved from source",
+  "graphs": 2048,
+  "hypergraph_sha256": "5aa720f98bec740c4223adffd04a7dc409309823eecbdb9b2786ad9b7d6230da",
+  "isolate_policy": "preserve converted-input vertices",
+  "label_mode": "composite",
+  "labels_sha256": null,
+  "rounding": "Python round, ties to even",
+  "schema_version": 1,
+  "source": {
+    "kind": "pipeline_relabel",
+    "path": "data/steam_player/composite/steam_player.txt",
+    "sha256": "1ba7ef7d3bcc782a1f6ff808c308546eadb2136572545f77a302c3a907f5363a"
+  },
+  "vertex_composite_dims": 1
+}

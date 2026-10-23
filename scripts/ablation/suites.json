@@ -1,0 +1,503 @@
+{
+  "schema_version": 1,
+  "suites": {
+    "ABL_COMPONENTS": {
+      "description": "Component ablations around the full model: overlap labels x counts at maximum pattern size 3; label resolution (exact vs log2) x overlap labels x counts at size 2, because exact labels at size 3 are too costly to mine; maximum pattern size; without one-incidence patterns; uniform support instead of the support schedule. Each variant changes one factor and none reselects the configuration. Fully inductive, DHG-Bench repeats 0-4.",
+      "base_run": "MAIN",
+      "protocol": "inductive",
+      "datasets": [
+        "imdb_dir_form",
+        "imdb_dir_genre",
+        "steam_player",
+        "twitter_friend",
+        "rhg_10",
+        "rhg_3"
+      ],
+      "repeats": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "control_label": "Full model",
+      "studies": [
+        {
+          "id": "FACT",
+          "type": "component",
+          "title": "Components (overlap labels x counts)",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "NO_OVERLAP",
+              "label": "Without overlap labels",
+              "overrides": {
+                "overlap_labels": "none"
+              }
+            },
+            {
+              "id": "PRESENCE",
+              "label": "Presence instead of counts",
+              "overrides": {
+                "mined_count_encoding": "presence"
+              }
+            },
+            {
+              "id": "NO_OVERLAP_PRESENCE",
+              "label": "Without overlap labels, presence",
+              "overrides": {
+                "overlap_labels": "none",
+                "mined_count_encoding": "presence"
+              }
+            }
+          ]
+        },
+        {
+          "id": "LABELS",
+          "type": "component",
+          "title": "Components at pattern size 2 (labels x overlap labels x counts; D2_LOG2 is DEPTH/D2)",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "D2_LOG2_PRESENCE",
+              "label": "Depth 2, log2 labels, presence",
+              "overrides": {
+                "max_depth": 2,
+                "mined_count_encoding": "presence"
+              }
+            },
+            {
+              "id": "D2_LOG2_NO_OVERLAP",
+              "label": "Depth 2, log2 labels, without overlap labels",
+              "overrides": {
+                "max_depth": 2,
+                "overlap_labels": "none"
+              }
+            },
+            {
+              "id": "D2_LOG2_NO_OVERLAP_PRESENCE",
+              "label": "Depth 2, log2 labels, without overlap labels, presence",
+              "overrides": {
+                "max_depth": 2,
+                "overlap_labels": "none",
+                "mined_count_encoding": "presence"
+              }
+            },
+            {
+              "id": "D2_EXACT",
+              "label": "Depth 2, exact labels",
+              "overrides": {
+                "max_depth": 2,
+                "label_binning": "none",
+                "overlap_labels": "exact"
+              }
+            },
+            {
+              "id": "D2_EXACT_PRESENCE",
+              "label": "Depth 2, exact labels, presence",
+              "overrides": {
+                "max_depth": 2,
+                "label_binning": "none",
+                "overlap_labels": "exact",
+                "mined_count_encoding": "presence"
+              }
+            },
+            {
+              "id": "D2_EXACT_NO_OVERLAP",
+              "label": "Depth 2, exact labels, without overlap labels",
+              "overrides": {
+                "max_depth": 2,
+                "label_binning": "none",
+                "overlap_labels": "none"
+              }
+            },
+            {
+              "id": "D2_EXACT_NO_OVERLAP_PRESENCE",
+              "label": "Depth 2, exact labels, without overlap labels, presence",
+              "overrides": {
+                "max_depth": 2,
+                "label_binning": "none",
+                "overlap_labels": "none",
+                "mined_count_encoding": "presence"
+              }
+            }
+          ]
+        },
+        {
+          "id": "DEPTH",
+          "type": "sweep",
+          "title": "Maximum pattern size",
+          "parameter": "max_depth",
+          "x_label": "Maximum pattern size (vertex-hyperedge incidences)",
+          "variants": [
+            {
+              "id": "D1",
+              "x": 1,
+              "overrides": {
+                "max_depth": 1
+              }
+            },
+            {
+              "id": "D2",
+              "x": 2,
+              "overrides": {
+                "max_depth": 2
+              }
+            },
+            {
+              "id": "D3",
+              "x": 3,
+              "control": true,
+              "label": "Full model"
+            }
+          ]
+        },
+        {
+          "id": "SINGLE",
+          "type": "component",
+          "title": "Without 1-incidence patterns",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "NO_SINGLE",
+              "label": "Patterns of at least two incidences",
+              "overrides": {
+                "mined_min_depth": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "SUP",
+          "type": "component",
+          "title": "Support schedule",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "UNIFORM",
+              "label": "Uniform support (no exhaustive small patterns)",
+              "overrides": {
+                "exhaustive_depth": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ABL_SELECTION": {
+      "description": "Pattern selection before the encoder: the entropy-based ranking of Alam et al. (2021) on the training labels with min_cov coverage selection chooses which count columns enter the encoder (mined_selection='filter'), at min_cov 1, 5, 15, 30 and 60. Classification only; mining caches are reused. Does not reselect the configuration. Fully inductive, DHG-Bench repeats 0-4.",
+      "base_run": "MAIN",
+      "protocol": "inductive",
+      "datasets": [
+        "imdb_dir_form",
+        "imdb_dir_genre",
+        "steam_player",
+        "twitter_friend",
+        "rhg_10",
+        "rhg_3"
+      ],
+      "repeats": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "control_label": "Full model",
+      "studies": [
+        {
+          "id": "SEL",
+          "type": "component",
+          "title": "Pattern selection before the encoder",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "CER_C1",
+              "label": "Selected: entropy-based score, min_cov 1",
+              "overrides": {
+                "mined_selection": "filter",
+                "min_cov": 1
+              }
+            },
+            {
+              "id": "CER_C5",
+              "label": "Selected: entropy-based score, min_cov 5",
+              "overrides": {
+                "mined_selection": "filter",
+                "min_cov": 5
+              }
+            },
+            {
+              "id": "CER_C15",
+              "label": "Selected: entropy-based score, min_cov 15",
+              "overrides": {
+                "mined_selection": "filter",
+                "min_cov": 15
+              }
+            },
+            {
+              "id": "CER_C30",
+              "label": "Selected: entropy-based score, min_cov 30",
+              "overrides": {
+                "mined_selection": "filter",
+                "min_cov": 30
+              }
+            },
+            {
+              "id": "CER_C60",
+              "label": "Selected: entropy-based score, min_cov 60",
+              "overrides": {
+                "mined_selection": "filter",
+                "min_cov": 60
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ABL_ENCODER": {
+      "description": "Encoder and classifier ablations around the full model: without the learned weighted pattern sum (the scaled relative frequencies go straight to the same [64, 32] NN head, or to a linear SVM with C = 1), embedding dimension 8/16/64, pattern dropout and encoder L2 separately, without the log(1 + present-pattern count) input, input scaling none/train-std, one hidden layer, and without LayerNormalization. Classification only; mining caches are reused. None reselects the configuration. Fully inductive, DHG-Bench repeats 0-4.",
+      "base_run": "MAIN",
+      "protocol": "inductive",
+      "datasets": [
+        "imdb_dir_form",
+        "imdb_dir_genre",
+        "steam_player",
+        "twitter_friend",
+        "rhg_10",
+        "rhg_3"
+      ],
+      "repeats": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "control_label": "Full model",
+      "studies": [
+        {
+          "id": "ENC",
+          "type": "component",
+          "title": "Learned pattern encoder",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "NO_ENCODER",
+              "label": "Without encoder: relative frequencies into the NN head",
+              "overrides": {
+                "representation_type": "raw"
+              }
+            },
+            {
+              "id": "LINEAR_SVM",
+              "label": "Without encoder: linear SVM on relative frequencies",
+              "overrides": {
+                "representation_type": "raw",
+                "classifier_type": "svm"
+              }
+            }
+          ]
+        },
+        {
+          "id": "DIM",
+          "type": "sweep",
+          "title": "Embedding dimension",
+          "parameter": "embedding_dim",
+          "x_label": "Embedding dimension",
+          "variants": [
+            {
+              "id": "D8",
+              "x": 8,
+              "overrides": {
+                "embedding_dim": 8
+              }
+            },
+            {
+              "id": "D16",
+              "x": 16,
+              "overrides": {
+                "embedding_dim": 16
+              }
+            },
+            {
+              "id": "D32",
+              "x": 32,
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "D64",
+              "x": 64,
+              "overrides": {
+                "embedding_dim": 64
+              }
+            }
+          ]
+        },
+        {
+          "id": "REG",
+          "type": "component",
+          "title": "Encoder regularisation",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "NO_PATTERN_DROPOUT",
+              "label": "Pattern dropout 0 (instead of 0.3)",
+              "overrides": {
+                "supervised_pattern_dropout": 0.0
+              }
+            },
+            {
+              "id": "ENCODER_L2_LOW",
+              "label": "Encoder L2 0.01 (instead of 0.05)",
+              "overrides": {
+                "supervised_encoder_l2": 0.01
+              }
+            }
+          ]
+        },
+        {
+          "id": "INPUT",
+          "type": "component",
+          "title": "Encoder input",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "NO_COUNT_INPUT",
+              "label": "Without the log(1 + present-pattern count) input",
+              "overrides": {
+                "supervised_count_feature": "none"
+              }
+            },
+            {
+              "id": "SCALE_NONE",
+              "label": "Unscaled relative frequencies",
+              "overrides": {
+                "supervised_input_scaling": "none"
+              }
+            },
+            {
+              "id": "SCALE_STD",
+              "label": "Relative frequencies divided by the training standard deviation",
+              "overrides": {
+                "supervised_input_scaling": "train_std"
+              }
+            }
+          ]
+        },
+        {
+          "id": "HEAD",
+          "type": "component",
+          "title": "Classifier head",
+          "variants": [
+            {
+              "id": "FULL",
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "ONE_LAYER",
+              "label": "One hidden layer (64)",
+              "overrides": {
+                "nn_layers": [
+                  64
+                ],
+                "nn_dropouts": [
+                  0.3
+                ],
+                "nn_l2_regs": [
+                  0.05
+                ]
+              }
+            },
+            {
+              "id": "NO_LAYER_NORM",
+              "label": "Without LayerNormalization (encoder and head)",
+              "overrides": {
+                "supervised_layer_norm": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ABL_DEPTH4": {
+      "description": "Maximum pattern size 4: the full model with max_depth 4 and the same support schedule. Extends the DEPTH study of ABL_COMPONENTS and does not reselect the configuration. Fully inductive, DHG-Bench repeats 0-4.",
+      "base_run": "MAIN",
+      "protocol": "inductive",
+      "datasets": [
+        "imdb_dir_form",
+        "imdb_dir_genre",
+        "steam_player",
+        "twitter_friend",
+        "rhg_10",
+        "rhg_3"
+      ],
+      "repeats": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "control_label": "Full model",
+      "studies": [
+        {
+          "id": "DEPTH",
+          "type": "sweep",
+          "title": "Maximum pattern size, 3 and 4 (DEPTH in ABL_COMPONENTS gives sizes 1 and 2)",
+          "parameter": "max_depth",
+          "x_label": "Maximum pattern size (vertex-hyperedge incidences)",
+          "variants": [
+            {
+              "id": "D3",
+              "x": 3,
+              "control": true,
+              "label": "Full model"
+            },
+            {
+              "id": "D4",
+              "x": 4,
+              "overrides": {
+                "max_depth": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

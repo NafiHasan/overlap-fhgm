@@ -1,0 +1,18 @@
+{
+  "converter_sha256": "7d53dc00fc050308e3b6fd20cd035253aa4efab25c5c977f5197a5aaacf9e132",
+  "edge_composite_dims": 1,
+  "graph_order": "preserved from source",
+  "graphs": 1869,
+  "hypergraph_sha256": "4d4582a5f56fa7fc2cd0469dbf2f0f0ea827ad207f294b357f6e3742123e2ac0",
+  "isolate_policy": "preserve converted-input vertices",
+  "label_mode": "composite",
+  "labels_sha256": null,
+  "rounding": "Python round, ties to even",
+  "schema_version": 1,
+  "source": {
+    "kind": "pipeline_relabel",
+    "path": "data/imdb_dir_form/composite/IMDB_dir_form.txt",
+    "sha256": "6734b74ad815f476cb34ea49d5928caf3b69f96d7ce759e5c63f70ad5cb12531"
+  },
+  "vertex_composite_dims": 1
+}
