@@ -1,6 +1,7 @@
 # Overlap-Aware Sub-hypergraph Pattern Frequencies for Hypergraph-Level Classification
 
-Code and data for the paper of the same title. The method mines frequent
+Code and data for the paper of the same title
+([arXiv:2610.33514](https://arxiv.org/abs/2610.33514)). The method mines frequent
 sub-hypergraph patterns whose hyperedge pairs carry overlap-size labels,
 encodes each hypergraph by the relative occurrence frequencies of those
 patterns, and classifies it with a learned pattern encoder.
@@ -194,10 +195,12 @@ may give slightly different scores.
 ```bibtex
 @misc{overlapfhgm2026,
   title         = {Overlap-Aware Sub-hypergraph Pattern Frequencies for Hypergraph-Level Classification},
-  author        = {Nafiul Hasan Anik and Nazira Jesmin Lina and Tanvir Alam and Fahim Arefin},
+  author        = {Nafiul Hasan Anik and Nazira Jesmin Lina and Md Tanvir Alam and Md. Fahim Arefin},
   year          = {2026},
-  eprint        = {TODO},
-  archivePrefix = {arXiv}
+  eprint        = {2610.33514},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2610.33514}
 }
 ```
 
